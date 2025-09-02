@@ -1,0 +1,57 @@
+#!/bin/bash
+
+
+python finetune_qa.py \
+    --precision "bf16" \
+    --target_maxlength 16 \
+    --reader_model_type flamingo \
+    --retriever_format "{img_path}" \
+    --text_maxlength 64 \
+    --retriever_text_format "{text}" \
+    --eval_data "[DATA PATH VAL]" \
+    --test_data "[DATA PATH TEST]" \
+    --train_data "[DATA PATH TRAIN]" \
+    --running_script_path "run_scripts/training_retriever_image/retina/train_retriever_img_qwen.sh" \
+    --per_gpu_batch_size 2 \
+    --shuffle \
+    --total_steps 50000 \
+    --eval_in_specific_step 0 \
+    --lr 1e-5 --lr_retriever 1e-4 \
+    --log_freq 10 \
+    --n_context 2 --retriever_n_context 50 \
+    --use_base_retriever --update_base_ret 10 \
+    --eval_in_specific_step 0 \
+    --name "[NAME MODEL]" \
+    --checkpoint_dir "[INDEX CHECKPOINT PATH]" \
+    --main_port 15000 \
+    --write_results \
+    --save_freq 24800 \
+    --seed 10 \
+    --fused_eval \
+    --eval_freq 100 \
+    --test_freq 100 \
+    --task cr_qa_retina \
+    --qwen_model \
+    --multi-modal \
+    --index_mode flat \
+    --ret_acc_text \
+    --save_index_n_shards 128 \
+    --text_retrieval \
+    --load_index_path "[INDEX IMAGE PATH]" \
+    --img_retrieval \
+    --load_index_text_path "[INDEX TEXT PATH]" \
+    --retriever_multimodal_model_type "jina" \
+    --append_only_one_passage_to_query \
+    --retrieve_passage_for_train_retriever \
+    --partial_learning_query_embeddings \
+    --freeze_passages_encoder_for_train \
+    --train_retriever \
+    --train_retriever_img \
+    --specific_tokens_for_retriever_loss \
+    --retriever_training_logits_from_generation \
+    --normalize_factor_loss 0.25 \
+    --add_prior_to_gold_score \
+    --disable_gradient_reader \
+    --add_retrieve_text_to_prompt \
+    --reader_checkpoint_path "[READER CHECKPOINT PATH]" \
+    --model_checkpoint_path "[MODEL CHECKPOINT PATH AFTER TRAIN TEXT]"

@@ -1,0 +1,43 @@
+### model
+model_name_or_path: "mistral-community/pixtral-12b"
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: all
+
+#### dataset
+dataset: [Train Data]
+template: pixtral
+cutoff_len: 204800
+max_samples: 200000
+overwrite_cache: true
+preprocessing_num_workers: 16
+freeze_vision_tower: false
+### output
+output_dir: [Output path]
+logging_steps: 108
+save_steps: 108
+max_steps: 2160
+plot_loss: true
+overwrite_output_dir: true
+
+
+### train
+per_device_train_batch_size: 5
+gradient_accumulation_steps: 8
+learning_rate: 1.0e-4
+num_train_epochs: 15
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+
+
+### eval
+eval_dataset: [Eval Data]
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 108
+
